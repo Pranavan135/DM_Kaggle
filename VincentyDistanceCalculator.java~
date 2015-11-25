@@ -12,6 +12,41 @@ import static java.lang.Math.toRadians;
 import static java.lang.Math.round;
 import java.text.NumberFormat;
 
+/**
+ * A geographic data calculator based on Vincenty's formulae.
+ * 
+ * <p>The geodetic operations in this class are based on an ellipsoidal
+ * model of the Earth, using Vincenty's formulae; this is slow, but
+ * very accurate.  Be aware, however, that accuracy is compromised in
+ * extreme cases, such as nearly-antipodal points.
+ * 
+ * <p>The user needs to specify the ellipsoid to use for the geodetic
+ * calculations; this is done in the constructor.  The Ellipsoid enum
+ * defines a range of reference ellipsoids.  The default is the widely-used
+ * WGS-84 standard.
+ * 
+ * <p>The code in this class was converted from the Fortran implementations
+ * developed by the National Geodetic Survey.  No license is specified for
+ * this code, but I believe that it is public domain, since it was created
+ * by an agency of the US Government.
+ * 
+ * References:
+ * 
+ * <ul>
+ * <li><a href="http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/">Fortran
+ *     implementations of Vincenty's formulae,</a> from the National
+ *     Geodetic Survey</li>
+ * <li><a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Vincenty's
+ *     paper describing his formulae</a>, from NOAA</li>
+ * <li><a href="http://www.movable-type.co.uk/scripts/latlong-vincenty.html">JS
+ *     implementations of Vincenty's inverse formula</a>, from Movable Type
+ *     Ltd</li>
+ * <li><a href="http://www.movable-type.co.uk/scripts/latlong-vincenty-direct.html">JS
+ *     implementations of Vincenty's direct formula</a>, from Movable Type
+ *     Ltd</li>
+ * </ul>
+ *
+ */
 public class VincentyDistanceCalculator {
 
 	// Returns the distance in kilometers
@@ -134,6 +169,9 @@ public class VincentyDistanceCalculator {
 	 * Modified Rainsford's method with Helmert's elliptical terms.
 	 * Effective in any azimuth and at any distance short of antipodal.
 	 *
+	 * Programmed for the CDC-6600 by lcdr L. Pfeifer, NGS Rockville MD,
+	 * 20 Feb 1975.
+	 *
 	 * @param	glat1		The latitude of the starting point, in radians,
 	 * 						positive north.
 	 * @param	glon1		The latitude of the starting point, in radians,
@@ -204,6 +242,8 @@ public class VincentyDistanceCalculator {
 	 * Modified rainsford's method with helmert's elliptical terms.
 	 * Effective in any azimuth and at any distance short of antipodal;
 	 * from/to stations must not be the geographic pole.
+	 *               
+	 * Programmed by Robert (Sid) Safford; released for field use 5 Jul 1975.
 	 * 
 	 * @param	a			Semi-major axis of reference ellipsoid in meters.
 	 * @param	f			Flattening (0.0033528...).
@@ -356,6 +396,8 @@ public class VincentyDistanceCalculator {
 
 	/**
 	 * Compute the length of a meridional arc between two latitudes.
+	 *               
+	 * Programmed by Robert (Sid) Safford; released for field use 5 Jul 1975.
 	 * 
 	 * @param	amax		The semi-major axis of the reference ellipsoid,
 	 * @param	flat		The flattening (0.0033528 ... ).
@@ -424,6 +466,7 @@ public class VincentyDistanceCalculator {
 	/**
 	 * Subroutine to compute the lift-off-azimuth constants.
 	 *               
+	 * Programmed by Robert (Sid) Safford; released for field use 10 Jun 1985.
 	 * 
 	 * @param	a			The semi-major axis of the reference ellipsoid,
 	 * @param	f			The flattening (0.0033528 ... ).
